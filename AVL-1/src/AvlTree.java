@@ -23,15 +23,7 @@ public class AvlTree {
 
         return node;
     }
-
-    public int height(Node<Integer> node) {
-        if (node == null) {
-            return 0;
-        }
-
-        return node.height;
-    }
-
+    
     public void print() {
         BTreePrinter.printNode(this.root);
     }

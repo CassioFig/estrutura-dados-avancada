@@ -25,7 +25,67 @@ public class AvlTree {
         }
 
         node.height = 1 + Math.max(height(node.left), height(node.right));
-        return this.rotate(node, value);
+        return this.rotateAfterInsert(node, value);
+    }
+
+    public void delete(int value) {
+        this.root = this.deleteRecursive(this.root, value);
+    }
+
+    private Node<Integer> deleteRecursive(Node<Integer> node, int value) {
+        if (node == null) {
+            return null;
+        }
+
+        if (value < node.value) {
+            node.left = deleteRecursive(node.left, value);
+
+        } else if (value > node.value) {
+            node.right = deleteRecursive(node.right, value);
+
+        } else {
+            if (node.left == null || node.right == null) {
+
+                Node<Integer> aux = null;
+                if (aux == node.left) {
+                    aux = node.right;
+
+                } else {
+                    aux = node.left;
+                }
+
+                if (aux == null) {
+                    aux = node;
+                    node = null;
+
+                } else {
+                    node = aux;
+                }
+
+            } else {
+                Node<Integer> aux = minValue(node.right);
+
+                node.value = aux.value;
+                node.right = deleteRecursive(node.right, aux.value);
+            }
+        }
+
+        if (node == null) {
+            return null;
+        }
+
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        return rotateAfterDelete(node);
+    }
+
+    private Node<Integer> minValue(Node<Integer> node) {
+        Node<Integer> current = node;
+
+        while (current.left != null) {
+            current = current.left;
+        }
+
+        return current;
     }
 
     public int height(Node<Integer> node) {
@@ -35,14 +95,31 @@ public class AvlTree {
         return node.height;
     }
 
-    public int getBalance(Node<Integer> node) {
-        if (node == null) {
-            return 0;
+    private Node<Integer> rotateAfterDelete(Node<Integer> node) {
+        int balance = getBalance(node);
+
+        if (balance > 1 && getBalance(node.left) >= 0) {
+            return rightRotate(node);
         }
-        return height(node.left) - height(node.right);
+
+        if (balance > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        if (balance < -1 && getBalance(node.right) <= 0 ) {
+            return leftRotate(node);
+        }
+
+        if (balance < -1 && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+
+        return node;
     }
 
-    private Node<Integer> rotate(Node<Integer> node, int value) {
+    private Node<Integer> rotateAfterInsert(Node<Integer> node, int value) {
         int balance = getBalance(node);
 
         if (balance > 1 && value < node.left.value) {
@@ -64,6 +141,13 @@ public class AvlTree {
         }
 
         return node;
+    }
+
+    public int getBalance(Node<Integer> node) {
+        if (node == null) {
+            return 0;
+        }
+        return height(node.left) - height(node.right);
     }
 
     private Node<Integer> leftRotate(Node<Integer> node) {
@@ -91,7 +175,7 @@ public class AvlTree {
 
         return left;
     }
-    
+
     public void print() {
         BTreePrinter.printNode(this.root);
     }

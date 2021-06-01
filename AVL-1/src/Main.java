@@ -18,8 +18,8 @@ public class Main {
 
         System.out.println("-----------------------------------------");
 
-        tree.delete(4);
+//        tree.delete(4);
 
-        tree.print();
+//        tree.print();
     }
 }

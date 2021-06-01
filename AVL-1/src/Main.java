@@ -17,6 +17,7 @@ public class Main {
         tree.print();
 
         System.out.println("-----------------------------------------");
+        System.out.println("Árvore balanceada!");
 
 //        tree.delete(4);
 

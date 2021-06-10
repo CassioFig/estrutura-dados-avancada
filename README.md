@@ -6,3 +6,6 @@ https://github.com/CassioFig/estrutura-dados-avancada/tree/avl-1
 
 ### Fase 02
 https://github.com/CassioFig/estrutura-dados-avancada/tree/avl-2
+
+### Fase 03
+https://github.com/CassioFig/estrutura-dados-avancada/tree/avl-3

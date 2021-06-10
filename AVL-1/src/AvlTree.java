@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class AvlTree {
     Node<Integer> root;
 
@@ -96,22 +98,41 @@ public class AvlTree {
     }
 
     private Node<Integer> rotateAfterDelete(Node<Integer> node) {
+        Scanner input = new Scanner(System.in);
+        String enter;
+
         int balance = getBalance(node);
 
         if (balance > 1 && getBalance(node.left) >= 0) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação simples à esquerda.");
+            enter = input.nextLine();
+
             return rightRotate(node);
         }
 
         if (balance > 1 && getBalance(node.left) < 0) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação dupla à esquerda.");
+            enter = input.nextLine();
+
             node.left = leftRotate(node.left);
             return rightRotate(node);
         }
 
         if (balance < -1 && getBalance(node.right) <= 0 ) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação simples à direita.");
+            enter = input.nextLine();
+
             return leftRotate(node);
         }
 
         if (balance < -1 && getBalance(node.right) > 0) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação dupla à direita.");
+            enter = input.nextLine();
+
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
@@ -120,22 +141,41 @@ public class AvlTree {
     }
 
     private Node<Integer> rotateAfterInsert(Node<Integer> node, int value) {
+        Scanner input = new Scanner(System.in);
+        String enter;
+
         int balance = getBalance(node);
 
         if (balance > 1 && value < node.left.value) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação simples à esquerda.");
+            enter = input.nextLine();
+
             return rightRotate(node);
         }
 
         if (balance < -1 && value > node.right.value) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação simples à direita.");
+            enter = input.nextLine();
+
             return leftRotate(node);
         }
 
         if (balance > 1 && value > node.left.value) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação dupla à esquerda.");
+            enter = input.nextLine();
+
             node.left = leftRotate(node.left);
             return rightRotate(node);
         }
 
         if (balance < -1 && value < node.right.value) {
+            this.warning();
+            System.out.println("Sua árvore precisa de uma rotação dupla à direita.");
+            enter = input.nextLine();
+
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
@@ -178,5 +218,11 @@ public class AvlTree {
 
     public void print() {
         BTreePrinter.printNode(this.root);
+    }
+
+    private void warning() {
+        this.print();
+        System.out.println("Árvore desbalanceada!");
+        System.out.println("----------------------------------------");
     }
 }
